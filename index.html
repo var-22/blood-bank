@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donation Hackathon</title>
+    <title>Blood Donor Registration</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Blood Donation Hackathon</h1>
-        </header>
-        <form id="donorForm">
-            <input type="text" id="name" placeholder="Name" required>
-            <input type="text" id="phone" placeholder="Phone No" required>
-            <input type="text" id="address" placeholder="Address" required>
-            <input type="text" id="bloodGroup" placeholder="Blood Group" required>
-            <button type="submit">Submit</button>
-        </form>
-        <h2>Search Donors</h2>
-        <input type="text" id="searchBloodGroup" placeholder="Enter Blood Group">
-        <button onclick="searchDonors()">Search</button>
-        <div id="searchResults"></div>
-        <button class="sos-button" onclick="sendSOS()">SOS</button>
-        <footer>
-            <img src="blood_donation.jpg" alt="Blood Donation" class="banner-image">
-        </footer>
-    </div>
+    <h1>Blood Donor Registration</h1>
+    <form id="donorForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" required>
+        <br>
+        <label for="address">Address:</label>
+        <input type="text" id="address" required>
+        <br>
+        <label for="bloodGroup">Blood Group:</label>
+        <input type="text" id="bloodGroup" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+
+    <h2>Search Donors</h2>
+    <input type="text" id="searchBloodGroup" placeholder="Enter blood group">
+    <button onclick="searchDonors()">Search</button>
+
+    <h2>Results</h2>
+    <div id="searchResults"></div>
+
+    <h2>Send SOS</h2>
+    <button onclick="sendSOS()">Send SOS</button>
+
     <script src="scripts.js"></script>
 </body>
 </html>
-

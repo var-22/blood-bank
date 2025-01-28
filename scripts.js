@@ -1,8 +1,5 @@
-/* scripts.js */
 const donorForm = document.getElementById('donorForm');
 const searchResults = document.getElementById('searchResults');
-
-let donors = [];
 
 donorForm.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -12,24 +9,44 @@ donorForm.addEventListener('submit', function(event) {
         address: document.getElementById('address').value,
         bloodGroup: document.getElementById('bloodGroup').value
     };
-    donors.push(donor);
+    fetch('/donors', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(donor)
+    }).then(response => response.text())
+      .then(message => alert(message));
     donorForm.reset();
-    alert('Donor registered successfully!');
 });
 
 function searchDonors() {
     const searchBloodGroup = document.getElementById('searchBloodGroup').value;
-    const results = donors.filter(donor => donor.bloodGroup === searchBloodGroup);
-    searchResults.innerHTML = results.map(donor => `
-        <div>
-            <p>Name: ${donor.name}</p>
-            <p>Phone: ${donor.phone}</p>
-            <p>Address: ${donor.address}</p>
-            <p>Blood Group: ${donor.bloodGroup}</p>
-        </div>
-    `).join('');
+    fetch(`/donors?bloodGroup=${searchBloodGroup}`)
+        .then(response => response.json())
+        .then(results => {
+            if (results.length > 0) {
+                searchResults.innerHTML = results.map(donor => `
+                    <div>
+                        <p>Name: ${donor.name}</p>
+                        <p>Phone: ${donor.phone}</p>
+                        <p>Address: ${donor.address}</p>
+                        <p>Blood Group: ${donor.bloodGroup}</p>
+                    </div>
+                `).join('');
+            } else {
+                searchResults.innerHTML = `<p>No donors found for blood group ${searchBloodGroup}.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching donor data:', error);
+            searchResults.innerHTML = `<p>Error fetching donor data. Please try again later.</p>`;
+        });
 }
 
 function sendSOS() {
-    alert('SOS notification sent to all registered donors!');
+    fetch('/sos', {
+        method: 'POST'
+    }).then(response => response.text())
+      .then(message => alert(message));
 }
